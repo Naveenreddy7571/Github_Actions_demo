@@ -1,0 +1,25 @@
+name: CI    #name of the workflow
+
+on:
+  push:
+    branches:
+      - main  # trigger this workflow when we any changes push to the main branch
+
+jobs:
+  tests:  # test is a job 
+    runs-on: ubuntu-latest  # we are using gihub hosted runners ubuntu device
+
+    steps:  # steps how to do a job in this tests job there are 4 steps
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: setup python 
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+        
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      
+      - name: Run tests 
+        run: python -m pytest
