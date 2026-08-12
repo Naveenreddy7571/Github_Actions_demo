@@ -6,6 +6,9 @@ on:
       - main
       - develop
 
+env:
+  APP_NAME: githubactions-demo
+  PYTHON_VERSION: "3.10"
 jobs:
 
   tests:
@@ -18,7 +21,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: $PYTHON_VERSION
 
       - name: Install dependencies
         run: python -m pip install -r requirements.txt
@@ -29,6 +32,12 @@ jobs:
           echo "Branch: ${{ github.ref }}"
           echo "Commit: ${{ github.sha }}"
           echo "Actor: ${{ github.actor }}"
+      
+      - name: show application configuration
+        run: |
+            echo "APPLICATION NAME $APP_NAME"
+            echo "python version $ PYTHON_VERSION"
+
 
       - name: Run tests
         run: python -m pytest
