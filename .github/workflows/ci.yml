@@ -33,6 +33,14 @@ jobs:
         if: always()
         run: |
           echo "Test Completed" > test-result.txt
+      
+      - name: Generate image tag
+        id: version
+        run: echo "tag=v1.0.0" >> "$GITHUB_OUTPUT"  #special environment variable of github 
+      
+      - name: show tag name
+        run: echo "Tag is ${{ steps.version.outputs.tag }}"
+
 
       - name: Upload test report
         if: always()
