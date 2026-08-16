@@ -41,13 +41,15 @@ jobs:
       - name: show tag name
         run: echo "Tag is ${{ steps.version.outputs.tag }}"
 
-
       - name: Upload test report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: test-result.txt
+      
+    outputs:  # saying github actions that output this image_tag as output variable in form the jobs
+      image_tag: ${{ steps.version.outputs.tag }}
 
   build:
     needs: tests
@@ -58,4 +60,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Build Docker image
-        run: docker build -t githubactions-demo:v1 .
+        run: |
+          docker build \
+            -t githubactions-demo:${{ needs.tests.outputs.image_tag }} \
+            .
